@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: test
+# key: <t
+# --
+
+if($0 == $0){
+    $0
+}
+else{
+    $0
+}

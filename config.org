@@ -52,28 +52,32 @@ Lets Make it look better.
 
 ** My Custom Theme
 #+begin_src emacs-lisp
-  
+
     (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-  (load-theme 'RedDark t)
+  ;;(load-theme 'RedDark t)
+  (load-theme 'tsdh-light t)
 
 #+end_src
 
 ** Fonts
 #+begin_src emacs-lisp
 
+
+  
+
   ;; setting up font and size
   (set-face-attribute 'default nil
     :font "JetBrains Mono"
-    :height 125
-    :weight 'medium)
+    :height 130
+    :weight 'bold)
   (set-face-attribute 'variable-pitch nil
     :font "Ubuntu"
-    :height 110
-    :weight 'medium)
+    :height 115
+    :weight 'bold)
   (set-face-attribute 'fixed-pitch nil
     :font "JetBrains Mono"
-    :height 125
-    :weight 'medium)
+    :height 130
+    :weight 'bold)
 
 
   ;; Makes commented text and keywords italics.
@@ -86,7 +90,7 @@ Lets Make it look better.
   ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
   ;; are not right unless I also add this method of setting the default font.
 
-  (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
+  ;;(add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
 
 #+end_src
 
@@ -163,10 +167,10 @@ Org-bullets gives us attractive bullets rather than asterisks.
 ** Enabling Code Blocks Background
 #+begin_src emacs-lisp
 
-  (custom-set-faces
-  '(org-block ((t (:inherit shadow :extend t :background "black" :foreground "#14a2ff"))))
- '(org-block-begin-line ((t (:inherit org-meta-line :extend t :background "black" :foreground "orange" :slant italic))))
- '(org-block-end-line ((t (:inherit org-block-begin-line :extend t :background "black" :foreground "orange" :slant italic)))))
+ ;; (custom-set-faces
+ ;; '(org-block ((t (:inherit shadow :extend t :background "black" :foreground "#14a2ff"))))
+;; '(org-block-begin-line ((t (:inherit org-meta-line :extend t :background "black" :foreground "orange" :slant italic))))
+;; '(org-block-end-line ((t (:inherit org-block-begin-line :extend t :background "black" :foreground "orange" :slant ;; italic)))))
 
 #+end_src
 
@@ -180,7 +184,7 @@ Org-bullets gives us attractive bullets rather than asterisks.
                   (org-level-6 . 1.05)
                   (org-level-7 . 1.05)
                   (org-level-8 . 1.05)))
-    (set-face-attribute (car face) nil  :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil  :weight 'bold :height (cdr face)))
 #+end_src
 ** Auto Tangle
 #+begin_src emacs-lisp
@@ -237,7 +241,8 @@ This is helpful for providing auto complete
     (setq company-idle-delay 0
           company-minimum-prefix-length 1))
   (use-package company-box :straight t)
-
+  (add-hook 'after-init-hook 'global-company-mode)
+    (add-hook 'company-mode-hook 'company-box-mode)
 #+end_src
 
 
@@ -480,6 +485,64 @@ Helpfull for dragging a selection up, down,left right
 
   
 
+#+end_src
+
+** LSP -(Language Server Protocol)
+#+begin_src emacs-lisp
+ (use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (
+         (web-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+
+
+  
+#+end_src
+
+
+** YaSnippet
+#+begin_src emacs-lisp
+
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+    (yas-global-mode 1))
+
+  (use-package yasnippet-snippets)
+  (add-to-list 'company-backends 'company-yasnippet)
+  (yas-reload-all)
+
+
+#+end_src
+
+
+
+** Web-Mode and Emmet mode
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :straight t)
+  (use-package web-mode
+    :straight t)
+  (add-to-list 'auto-mode-alist '("\\.html$". web-mode))
+    (add-to-list 'auto-mode-alist '("\\.css?\\'". css-mode))
+    ;;(add-to-list 'auto-mode-alist '("\\.js\\'". web-mode))
+
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (add-hook 'web-mode-before-auto-complete-hooks 'company-mode-hook)
 #+end_src
 
 ** JavaScript Tools:

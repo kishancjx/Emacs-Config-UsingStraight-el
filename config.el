@@ -31,21 +31,22 @@
   )
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'RedDark t)
+;;(load-theme 'RedDark t)
+(load-theme 'tsdh-light t)
 
 ;; setting up font and size
 (set-face-attribute 'default nil
   :font "JetBrains Mono"
-  :height 125
-  :weight 'medium)
+  :height 130
+  :weight 'bold)
 (set-face-attribute 'variable-pitch nil
   :font "Ubuntu"
-  :height 110
-  :weight 'medium)
+  :height 115
+  :weight 'bold)
 (set-face-attribute 'fixed-pitch nil
   :font "JetBrains Mono"
-  :height 125
-  :weight 'medium)
+  :height 130
+  :weight 'bold)
 
 
 ;; Makes commented text and keywords italics.
@@ -58,7 +59,7 @@
 ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
 ;; are not right unless I also add this method of setting the default font.
 
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
+;;(add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
 
 (use-package rainbow-mode
   :straight t
@@ -94,10 +95,10 @@
 (use-package org-bullets :straight t)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-(custom-set-faces
- '(org-block ((t (:inherit shadow :extend t :background "black" :foreground "#14a2ff"))))
-'(org-block-begin-line ((t (:inherit org-meta-line :extend t :background "black" :foreground "orange" :slant italic))))
-'(org-block-end-line ((t (:inherit org-block-begin-line :extend t :background "black" :foreground "orange" :slant italic)))))
+;; (custom-set-faces
+ ;; '(org-block ((t (:inherit shadow :extend t :background "black" :foreground "#14a2ff"))))
+;; '(org-block-begin-line ((t (:inherit org-meta-line :extend t :background "black" :foreground "orange" :slant italic))))
+;; '(org-block-end-line ((t (:inherit org-block-begin-line :extend t :background "black" :foreground "orange" :slant ;; italic)))))
 
 (dolist (face '((org-level-1 . 1.3)
                 (org-level-2 . 1.15)
@@ -107,7 +108,7 @@
                 (org-level-6 . 1.05)
                 (org-level-7 . 1.05)
                 (org-level-8 . 1.05)))
-  (set-face-attribute (car face) nil  :weight 'medium :height (cdr face)))
+  (set-face-attribute (car face) nil  :weight 'bold :height (cdr face)))
 
 (use-package org-auto-tangle
   :straight t
@@ -145,6 +146,8 @@
   (setq company-idle-delay 0
         company-minimum-prefix-length 1))
 (use-package company-box :straight t)
+(add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'company-mode-hook 'company-box-mode)
 
 ;;Configuring Vertico
 (use-package vertico
@@ -343,6 +346,45 @@
 (use-package elisp-slime-nav
    :straight t
   :config (elisp-slime-nav-mode))
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (
+         (web-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+(add-to-list 'company-backends 'company-yasnippet)
+(yas-reload-all)
+
+(use-package emmet-mode
+  :straight t)
+(use-package web-mode
+  :straight t)
+(add-to-list 'auto-mode-alist '("\\.html$". web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css?\\'". css-mode))
+  ;;(add-to-list 'auto-mode-alist '("\\.js\\'". web-mode))
+
+(add-hook 'web-mode-hook 'emmet-mode)
+(add-hook 'web-mode-before-auto-complete-hooks 'company-mode-hook)
 
 ;;RJSX MODE
 (use-package rjsx-mode

@@ -38,3 +38,18 @@
 
 
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-block ((t (:inherit shadow :extend t :background "gainsboro" :foreground "dark slate gray"))))
+ '(org-block-begin-line ((t (:inherit org-meta-line :extend t :background "gainsboro" :foreground "dim gray" :slant italic :weight semi-light))))
+ '(org-block-end-line ((t (:inherit org-block-begin-line :extend t :background "gainsboro" :foreground "dim gray" :slant italic :weight semi-light)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("a4023b0b333f78a40784cc85c62624786298443c8190d24ea2a055dd6ca924ec" default)))
