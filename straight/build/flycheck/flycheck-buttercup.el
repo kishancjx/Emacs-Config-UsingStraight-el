@@ -1,0 +1,1 @@
+/home/kishancjx/.emacs.d/straight/repos/flycheck/flycheck-buttercup.el

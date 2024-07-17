@@ -1,0 +1,1 @@
+/home/kishancjx/.emacs.d/straight/repos/tide/tsserver/lib.dom.iterable.d.ts

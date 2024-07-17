@@ -1,0 +1,1 @@
+/home/kishancjx/.emacs.d/straight/repos/tide/tsserver/lib.es2019.array.d.ts
